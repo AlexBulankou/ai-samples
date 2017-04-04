@@ -1,4 +1,4 @@
-﻿namespace SortingHat1
+namespace SortingHat1
 {
     using System;
     using System.Collections.Generic;
@@ -58,16 +58,17 @@
     public class EntryLookupDictionary<TKey> : IEntryLookup<TKey>, IEqualityComparer<TKey>
            where TKey : IEquatable<TKey>
     {
-        private Dictionary<TKey, IItemWithKey<TKey>> entryDictionary;
+
+        private List<IItemWithKey<TKey>> entries;
 
         public EntryLookupDictionary(IEnumerable<IItemWithKey<TKey>> entries)
         {
-            this.entryDictionary = entries.ToDictionary(entry => entry.Key, this);
+            this.entries = new List<IItemWithKey<TKey>>(entries);
         }
 
         public IItemWithKey<TKey> GetEntryByKey(TKey key)
         {
-            return this.entryDictionary[key];
+            return this.entries.ToDictionary(entry => entry.Key, this)[key];
         }
 
         public bool Equals(TKey x, TKey y)
